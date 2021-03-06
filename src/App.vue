@@ -20,11 +20,13 @@
           :single-expand="true"
           :expanded.sync="expanded"
           item-key="title"
+          :item-class="getRowClass"
           show-expand
-          style="background: none !important;"
+          no-results-text="Pas de résultat"
           :footer-props="{
             'items-per-page-text': 'Sorts/page'
           }"
+          style="background: none !important;"
         >
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
@@ -52,20 +54,27 @@ export default {
       headers: [
         {
           text: "Nom",
-          value: "title"
+          value: "title",
+          class: "spellRow"
         },
         {
           text: "Niveau",
-          value: "level"
+          value: "level",
+          class: "spellRow"
         },
         { text: "", value: "data-table-expand" }
       ]
     };
+  },
+  methods: {
+    getRowClass() {
+      return "spellRow";
+    }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #app {
   background: url("./assets/background.jpg") repeat center;
   h1 {
@@ -76,5 +85,17 @@ export default {
   background: none !important;
   width: 100%;
   max-width: 1280px;
+}
+.spellRow {
+  td {
+    @media screen and (max-width: 400px){
+      &:first-child {
+        max-width: 50vw;
+      }
+      &:nth-child(2) {
+        width: 25vw;
+      }
+    }
+  }
 }
 </style>
