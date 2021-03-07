@@ -1,6 +1,20 @@
 <template>
   <v-app id="app">
     <h2 class="text-center primary--text mt-4">Grimoire de sorts</h2>
+    <v-radio-group
+      v-model="selectedClass"
+      row
+      @change="filterByClass"
+      class="mx-auto"
+    >
+      <v-radio label="toutes" value="all" />
+      <v-radio
+        v-for="classPc in classes"
+        :key="classPc"
+        :label="classPc"
+        :value="classPc"
+      />
+    </v-radio-group>
     <v-card class="main mx-auto" elevation="0">
       <v-card-title>
         <v-text-field
@@ -40,15 +54,18 @@
 </template>
 
 <script>
-import spells from "@/./spells.json";
+import SPELLS from "@/./spells.json";
 import SpellSheet from "@/components/SpellSheet";
+import { CLASSES } from "@/constantes/classes";
 
 export default {
   name: "App",
   components: { SpellSheet },
   data() {
     return {
-      spells: spells,
+      spells: SPELLS,
+      classes: CLASSES,
+      selectedClass: "all",
       search: "",
       expanded: [],
       headers: [
@@ -69,6 +86,19 @@ export default {
   methods: {
     getRowClass() {
       return "spellRow";
+    },
+    filterByClass() {
+      console.log(this.selectedClass);
+      if ("all" === this.selectedClass) {
+        this.spells = SPELLS;
+      } else {
+        this.spells = SPELLS.filter(elem => {
+          return (
+            -1 !==
+            elem.classes.findIndex(classe => classe === this.selectedClass)
+          );
+        });
+      }
     }
   }
 };
@@ -88,7 +118,7 @@ export default {
 }
 .spellRow {
   td {
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 400px) {
       &:first-child {
         max-width: 50vw;
       }
