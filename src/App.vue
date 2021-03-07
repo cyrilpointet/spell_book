@@ -1,64 +1,63 @@
 <template>
   <v-app id="app">
-    <h2 class="text-center primary--text mt-4">Grimoire de sorts</h2>
+    <div class="container">
+      <h2 class="text-center primary--text mt-4">Grimoire de sorts</h2>
 
-    <div class="d-flex px-2 mt-4">
-      <v-select
-        dense
-        v-model="selectedClass"
-        :items="['tous', ...classes]"
-        label="Classe"
-        @change="filterByClass"
-        class="text-capitalize mr-2"
-      />
-      <v-spacer />
-      <v-select
-        dense
-        v-model="selectedLevel"
-        :items="levels"
-        label="niveau"
-        @change="filterByClass"
-        class="text-capitalize"
-      />
+      <div class="d-flex px-2 mt-4">
+        <v-select
+          dense
+          v-model="selectedClass"
+          :items="['tous', ...classes]"
+          label="Classe"
+          @change="filterByClass"
+          class="text-capitalize mr-2"
+        />
+        <v-spacer />
+        <v-select
+          dense
+          v-model="selectedLevel"
+          :items="levels"
+          label="niveau"
+          @change="filterByClass"
+          class="text-capitalize"
+        />
+      </div>
+
+      <div class="px-2">
+        <v-text-field
+          dense
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Nom"
+          single-line
+          hide-details
+        ></v-text-field>
+      </div>
+
+      <v-data-table
+        :headers="headers"
+        :items="spells"
+        :mobile-breakpoint="0"
+        :search="search"
+        :single-expand="true"
+        :expanded.sync="expanded"
+        item-key="title"
+        :item-class="getRowClass"
+        show-expand
+        no-results-text="Pas de résultat"
+        :footer-props="{
+          'items-per-page-text': 'Sorts/page'
+        }"
+        style="background: none !important;"
+        class="mt-4"
+      >
+        <template v-slot:expanded-item="{ headers, item }">
+          <td :colspan="headers.length">
+            <SpellSheet :spell="item" />
+          </td>
+        </template>
+      </v-data-table>
     </div>
-
-    <div class="px-2">
-      <v-text-field
-        dense
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Nom"
-        single-line
-        hide-details
-      ></v-text-field>
-    </div>
-
-    <v-card class="main mx-auto" elevation="0">
-      <v-card-text>
-        <v-data-table
-          :headers="headers"
-          :items="spells"
-          :mobile-breakpoint="0"
-          :search="search"
-          :single-expand="true"
-          :expanded.sync="expanded"
-          item-key="title"
-          :item-class="getRowClass"
-          show-expand
-          no-results-text="Pas de résultat"
-          :footer-props="{
-            'items-per-page-text': 'Sorts/page'
-          }"
-          style="background: none !important;"
-        >
-          <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
-              <SpellSheet :spell="item" />
-            </td>
-          </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
   </v-app>
 </template>
 
@@ -135,6 +134,8 @@ export default {
     @media screen and (max-width: 400px) {
       &:first-child {
         max-width: 50vw;
+        overflow: hidden;
+        text-overflow: ellipsis
       }
       &:nth-child(2) {
         width: 25vw;

@@ -1,5 +1,6 @@
 <template>
   <div class="my-4 mainSpell">
+    <h4 class="primary--text text-center mb-4">{{ spell.title }}</h4>
     <p><strong class="primary--text">Niveau : </strong>{{ spell.level }}</p>
     <p><strong class="primary--text">Ecole : </strong>{{ spell.school }}</p>
     <p>
