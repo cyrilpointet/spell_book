@@ -1,31 +1,39 @@
 <template>
   <v-app id="app">
     <h2 class="text-center primary--text mt-4">Grimoire de sorts</h2>
-    <v-radio-group
-      v-model="selectedClass"
-      row
-      @change="filterByClass"
-      class="mx-auto px-2"
-    >
-      <v-radio label="tous" value="all" class="py-1 text-capitalize" />
-      <v-radio
-        v-for="classPc in classes"
-        :key="classPc"
-        :label="classPc"
-        :value="classPc"
-        class="py-1 text-capitalize"
+
+    <div class="d-flex px-2 mt-4">
+      <v-select
+        dense
+        v-model="selectedClass"
+        :items="['tous', ...classes]"
+        label="Classe"
+        @change="filterByClass"
+        class="text-capitalize mr-2"
       />
-    </v-radio-group>
+      <v-spacer />
+      <v-select
+        dense
+        v-model="selectedLevel"
+        :items="levels"
+        label="niveau"
+        @change="filterByClass"
+        class="text-capitalize"
+      />
+    </div>
+
+    <div class="px-2">
+      <v-text-field
+        dense
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Nom"
+        single-line
+        hide-details
+      ></v-text-field>
+    </div>
+
     <v-card class="main mx-auto" elevation="0">
-      <v-card-title>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Nom / niveau"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title>
       <v-card-text>
         <v-data-table
           :headers="headers"
@@ -66,7 +74,9 @@ export default {
     return {
       spells: SPELLS,
       classes: CLASSES,
-      selectedClass: "all",
+      levels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "tous"],
+      selectedClass: null,
+      selectedLevel: null,
       search: "",
       expanded: [],
       headers: [
@@ -89,15 +99,18 @@ export default {
       return "spellRow";
     },
     filterByClass() {
-      console.log(this.selectedClass);
-      if ("all" === this.selectedClass) {
-        this.spells = SPELLS;
-      } else {
-        this.spells = SPELLS.filter(elem => {
+      this.spells = SPELLS;
+      if (null !== this.selectedClass && "tous" !== this.selectedClass) {
+        this.spells = this.spells.filter(elem => {
           return (
             -1 !==
             elem.classes.findIndex(classe => classe === this.selectedClass)
           );
+        });
+      }
+      if (null !== this.selectedLevel && "tous" !== this.selectedLevel) {
+        this.spells = this.spells.filter(elem => {
+          return elem.level === this.selectedLevel;
         });
       }
     }
