@@ -120,7 +120,7 @@ export default {
 <style lang="scss">
 #app {
   background: url("./assets/background.jpg") repeat center;
-  h1 {
+  h2 {
     font-family: "Uncial Antiqua", cursive;
   }
 }
