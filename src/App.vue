@@ -5,14 +5,15 @@
       v-model="selectedClass"
       row
       @change="filterByClass"
-      class="mx-auto"
+      class="mx-auto px-2"
     >
-      <v-radio label="toutes" value="all" />
+      <v-radio label="tous" value="all" class="py-1 text-capitalize" />
       <v-radio
         v-for="classPc in classes"
         :key="classPc"
         :label="classPc"
         :value="classPc"
+        class="py-1 text-capitalize"
       />
     </v-radio-group>
     <v-card class="main mx-auto" elevation="0">
