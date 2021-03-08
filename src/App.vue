@@ -73,7 +73,7 @@ export default {
     return {
       spells: SPELLS,
       classes: CLASSES,
-      levels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "tous"],
+      levels: ["tous", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       selectedClass: null,
       selectedLevel: null,
       search: "",
@@ -135,7 +135,7 @@ export default {
       &:first-child {
         max-width: 50vw;
         overflow: hidden;
-        text-overflow: ellipsis
+        text-overflow: ellipsis;
       }
       &:nth-child(2) {
         width: 25vw;
